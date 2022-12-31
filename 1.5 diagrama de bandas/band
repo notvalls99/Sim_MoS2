@@ -1,0 +1,73 @@
+ndtset 2
+
+#Definition of the unit cell
+acell 6.03 6.03 32.97
+rprim sqrt(3/4) -0.5 0
+      sqrt(3/4)  0.5 0
+      0 0 1
+
+#Definition of the atoms
+# Definiremos ahora los tipos de átomos y llamaremos a los psudopotenciales
+ntypat 2          # Dos tipos de átomo
+znucl 42 16       # Número atómico de los dos tipos de átomos 
+pseudos "Mo.psp8, S.psp8" #pseudopotenciales utilizados
+natom 3           # Tenemos 3 átomos
+typat 1 2 2         # Dos átomos de Mo y uno de S
+
+xred 0 0 0
+     1/3 1/3 -0.098
+     1/3 1/3 0.098
+
+#Definition of the planewave basis set
+ecut 20.0         # Energía cinética máxima del 'cut off' en Hartree
+
+nstep 20          # Número máximo de ciclos
+diemac 12.0       #
+
+#Dataset 1
+kptopt1 1         
+chksymbreak 0
+nshiftk1 4
+shiftk1  0.5 0.5 0.5  
+         0.5 0.0 0.0
+         0.0 0.5 0.0
+         0.0 0.0 0.5
+ngkpt1  6 6 32
+prtden1  1         # Da la densidad para utilizarla en el segundo dataset
+toldfe1  1.0d-4    # Como siempre, elevada para la mayoría
+                   # de los materiales pero no influye.
+
+#Dataset 2 : estructura de bandas
+iscf2    -2
+getden2  -1
+kptopt2  -3  # número de segmentos en las bandas
+nband2   14
+ndivsm2   10   # 10 divisiones de los 3 segmentos delimitados
+                       # por los 4 puntos definidos abajo.
+kptbounds2  0.5  0.0  0.0 # Punto L 
+            0.0  0.0  0.0 # PuntoGamma
+            0.0  0.5  0.5 # Punto X
+            1.0  1.0  1.0 # Punto Gamma de la siguiente celda unidad.
+tolwfr2  1.0d-12
+enunit2  1             # Saca las energías en eV
+
+##############################################################
+# This section is used only for regression testing of ABINIT #
+##############################################################
+#%%<BEGIN TEST_INFO>
+#%% [setup]
+#%% executable = abinit
+#%% [files]
+#%% files_to_test =
+#%%   tbase3_5.abo, tolnlines=  0, tolabs=  0.000e+00, tolrel=  0.000e+00
+#%% [paral_info]
+#%% max_nprocs = 4
+#%% [extra_info]
+#%% authors = Unknown
+#%% keywords =
+#%% description =
+#%%   Crystalline silicon
+#%%
+#%%   Computation of the band structure.
+#%%   First, a SCF density computation, then a non-SCF band structure calculation.
+#%%<END TEST_INFO>

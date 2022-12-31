@@ -1,0 +1,66 @@
+#Define the methodology to find the minimum
+ionmov  22              # L-BFGS método quasi-Newtoniano
+ntime   10             # Número de iteraciones del L-BFGS
+tolmxf  5.0d-4         # Tolerancia
+
+rprim sqrt(3/4) -0.5 0
+      sqrt(3/4)  0.5 0
+      0 0 1
+
+xred 0 0 0
+     1/3 1/3 -0.098
+     1/3 1/3 0.098
+
+tolrff  0.02           # ESta tolerancia indica cuando tiene que parar el ciclo completo, twice in a row, 
+                       # cuanto el ratio entre dos máximos consecutivos sea menor a la tolerancia
+                       # parará
+
+
+nband    20             # Número de bandas conmutadas, solo utilizamos 14
+                        # pero no pasa nada por poner de más.
+
+# MoS2 En una caja
+# Definiremos primero la celda unidad con la que vamos a trabajar
+acell 6.03 6.03 32.97    # Con acell definimos el tamaño de los vectores primitivos, mide en Borhs
+
+# Definiremos ahora los tipos de átomos y llamaremos a los psudopotenciales
+ntypat 2          # Dos tipos de átomo
+znucl 42 16       # Número atómico de los dos tipos de átomos 
+pseudos "Mo.psp8, S.psp8" # Pseudo potenciales utilizados
+
+# Definimos los átomos
+natom 3           # Triatómica
+typat 1 2 2       # Un Mo y dos S
+
+
+# Parámetros de cálculo
+ecut 20.0         # Energía del cut en hatree
+kptopt 0          # Puntos k
+nkpt 1        
+
+# A partir de aquí copiado del tutorial
+#Parameters for the SCF procedure
+nstep 30          # Número de ciclos
+diemac 2.0        # Although this is not mandatory, it is worth to
+                  # precondition the SCF cycle. The model dielectric
+                  # function used as the standard preconditioner
+                  # is described in the "dielng" input variable section.
+                  # Here, we follow the prescriptions for molecules in a big box
+
+##############################################################
+# This section is used only for regression testing of ABINIT #
+##############################################################
+#%%<BEGIN TEST_INFO>SS
+#%% [setup]
+#%% executable = abinit
+#%% [files]
+#%% files_to_test = 
+#%%   tbase1_1.abo, tolnlines=  0, tolabs=  0.000e+00, tolrel=  0.000e+00
+#%% [paral_info]
+#%% max_nprocs = 1
+#%% [extra_info]
+#%% authors = X. Gonze
+#%% keywords = 
+#%% description = H2 molecule in a big box
+#%%<END TEST_INFO>
+

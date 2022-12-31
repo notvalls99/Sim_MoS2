@@ -1,0 +1,98 @@
+ndtset 3
+
+#Definition of the unit cell and ecut, 
+#for which one will have to make a convergence study
+acell 6.03 6.03 32.97
+ecut 20
+
+#First dataset : find the optimal bond length of H2, and associated total energy
+   natom1  3             # There are two atoms
+  ionmov1  2             # Use the modified Broyden algorithm
+   ntime1  20            # Maximum number of Broyden "timesteps"
+  tolmxf1  5.0d-4        # Stopping criterion for the geometry optimization : when 
+                         # the residual forces are less than tolmxf, the Broyden 
+                         # algorithm can stop
+   xcart1  0.0  0.0 0.0 # The starting values of the
+            3.48  0.0 -1.45 # atomic coordinates
+            3.48 0.0 1.45
+  toldff1  5.0d-5        # Will stop the SCF cycle when, twice in a row, 
+                         # the difference between two consecutive evaluations of
+                         # forces differ by less than toldff (in Hartree/Bohr)
+   nband1   20            # Just one band
+
+#Second dataset : get the total energy of the isolated atom
+   natom2  1             # There is one atom
+  nsppol2  2             # Spin-polarized calculation
+  occopt2  7             # Allow occupation numbers to be set by hand
+   nband2  10 10           # Number of bands for spin up and spin down
+     occ2  1.0  0.0      # Occupation numbers for spin up state and spin down state.
+  toldfe2  1.0d-6        # Will stop the SCF cycles when, twice in a row, 
+                         # the difference between two consecutive evaluations 
+                         # of total energy differ by less than toldfe (in Hartree)
+                         # This value is way too large for most realistic studies of materials
+   xred2  0.1 0.0 0.1   # The atom is located at the origin
+  spinat2  0.0 0.0 1.0   # Initialisation of spin
+
+rprim sqrt(3/4) -0.5 0
+      sqrt(3/4)  0.5 0
+      0 0 1
+#Second dataset : get the total energy of the isolated atom
+   natom3  2             # There is one atom
+  nsppol3  2             # Spin-polarized calculation
+  occopt3  7             # Allow occupation numbers to be set by hand
+   nband3  10 10           # Number of bands for spin up and spin down
+     occ3  1.0  0.0      # Occupation numbers for spin up state and spin down state.
+  toldfe3  1.0d-6        # Will stop the SCF cycles when, twice in a row, 
+                         # the difference between two consecutive evaluations 
+                         # of total energy differ by less than toldfe (in Hartree)
+                         # This value is way too large for most realistic studies of          
+                         
+  xred3     2.5000000000E-01    2.5000000000E-01   -4.3979375190E-02
+            2.5000000000E-01    2.5000000000E-01    4.3979375190E-02
+  spinat3  0.0 0.0 1.0
+           0.0 0.0 1.0   # Initialisation of spin
+#Definition of the atom types
+ntypat 2          # There is only one type of atom
+znucl 42 16           # The keyword "znucl" refers to the atomic number of the possible type(s) of atom.
+                  # Here, the only type is Hydrogen. The pseudopotential(s)
+                  # mentioned after the keyword "pseudos" should correspond to this type of atom.
+pseudos "Mo.psp8, S.psp8"
+#Definition of the atoms
+typat 1 2 2         # For the first dataset, both numbers will be read,
+                  # while for the second dataset, only one number will be read
+
+#Definition of the k-point grid
+kptopt 0          # Enter the k points manually 
+nkpt 1            # Only one k point is needed for isolated system,
+                  # taken by default to be 0.0 0.0 0.0
+
+#Definition of the SCF procedure
+nstep 20          # Maximal number of SCF cycles
+#toldfe is no more defined, as toldff is used above... 
+diemac 2.0        # Although this is not mandatory, it is worth to
+                  # precondition the SCF cycle. The model dielectric
+                  # function used as the standard preconditioner
+                  # is described in the "dielng" input variable section.
+                  # Here, we follow the prescriptions for molecules
+                  # in a big box
+
+##############################################################
+# This section is used only for regression testing of ABINIT #
+##############################################################
+#%%<BEGIN TEST_INFO>
+#%% [setup]
+#%% executable = abinit
+#%% [files]
+#%% files_to_test = 
+#%%   tbase2_1.abo, tolnlines=  3, tolabs=  3.000e-10, tolrel=  2.000e-08
+#%% [paral_info]
+#%% max_nprocs = 1
+#%% [extra_info]
+#%% authors = X. Gonze
+#%% keywords = 
+#%% description = 
+#%%    H2 molecule in a big box
+#%%    This file to optimize the H2 bond length, compute the associated total
+#%%    energy, then to compute the total energy of the isolated H atom.
+#%%<END TEST_INFO>
+

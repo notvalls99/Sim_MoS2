@@ -1,0 +1,11 @@
+ Fermi (or HOMO) energy (hartree) =   0.00534   Average Vxc (hartree)=  -0.13779
+ Magnetization (Bohr magneton)=  0.00000000E+00
+ Total spin up =  1.00000000E+01   Total spin down =  1.00000000E+01
+ Eigenvalues (hartree) for nkpt=   1  k points, SPIN UP:
+ kpt#   1, nband= 10, wtk=  1.00000, kpt=  0.0000  0.0000  0.0000 (reduced coord)
+  -2.32938   -1.43964   -1.35889   -1.35889   -0.65890   -0.28868   -0.28868   -0.26024
+  -0.24927   -0.04996
+ Eigenvalues (hartree) for nkpt=   1  k points, SPIN DOWN:
+ kpt#   1, nband= 10, wtk=  1.00000, kpt=  0.0000  0.0000  0.0000 (reduced coord)
+  -2.34289   -1.43874   -1.38387   -1.38387   -0.65011   -0.28748   -0.28748   -0.27181
+  -0.23845   -0.14064
